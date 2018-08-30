@@ -12,16 +12,30 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.ServletException;
+import java.io.Serializable;
 
 @RestController
 public class IndexController {
 
-    @GetMapping("/helloworld")
+    @PostMapping("/helloworld")
     public Result helloWorld() {
         Subject subject = SecurityUtils.getSubject();
-        return ResultGenerator.genSuccessResult("helloworld"+subject.getPrincipal());
+        return ResultGenerator.genSuccessResult("helloworld");
     }
-//添加shiro验证
+
+    @PostMapping("/nologin")
+    public Result nologin() {
+        Subject subject = SecurityUtils.getSubject();
+        return ResultGenerator.genSuccessResult("未登陆！！");
+    }
+
+    @PostMapping("/noauthor")
+    public Result noauthor() {
+        Subject subject = SecurityUtils.getSubject();
+        return ResultGenerator.genSuccessResult("没权限！！");
+    }
+
+//没有添加JWT验证
     @PostMapping("/doLogin")
     public Result doLogin(String username, String password) {
         boolean rememberMe = true;
@@ -36,7 +50,7 @@ public class IndexController {
         return ResultGenerator.genSuccessResult("登录成功");
     }
 
-    //没有添加shiro验证
+    //添加JWT验证
     @PostMapping("/login")
     public String login(String username, String password) throws ServletException {
         boolean rememberMe = true;
@@ -49,6 +63,21 @@ public class IndexController {
             throw new ServletException("wrong password and wrong password");
         }
         return JwtUtil.getToken(username);
+    }
+
+    //没有添加JWT验证
+    @PostMapping("/tokenLogin")
+    public Serializable tokenLogin(String username, String password)throws ServletException {
+        boolean rememberMe = true;
+        Subject subject = SecurityUtils.getSubject();
+        UsernamePasswordToken token = new UsernamePasswordToken(username, password, rememberMe);
+        try {
+            subject.login(token);
+        } catch (AuthenticationException e) {
+            token.clear();
+            throw new ServletException("wrong password and wrong password");
+        }
+        return subject.getSession().getId();
     }
 
 }

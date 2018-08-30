@@ -1,12 +1,17 @@
 package com.example.config;
 
+import com.example.sessionManager.MySessionManager;
 import org.apache.shiro.codec.Base64;
+import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.CookieRememberMeManager;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.servlet.SimpleCookie;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 @Configuration
 public class ShiroConfig {
@@ -49,17 +54,46 @@ public class ShiroConfig {
         return cookieRememberMeManager;
     }
 
+    //自定义sessionManager
+    @Bean
+    public SessionManager sessionManager() {
+        MySessionManager mySessionManager = new MySessionManager();
+        return mySessionManager;
+    }
+
+    /**
+    * 安全配置设置
+    * */
     @Bean
     public DefaultWebSecurityManager securityManager(){
         DefaultWebSecurityManager securityManager =  new DefaultWebSecurityManager();
         securityManager.setRealm(myShiroRealm());
         securityManager.setRememberMeManager(rememberMeManager());
+        securityManager.setSessionManager(sessionManager());
         return securityManager;
     }
     @Bean(name = "shiroFilter")
     public ShiroFilterFactoryBean shiroFilterFactoryBean(DefaultWebSecurityManager securityManager) {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         shiroFilterFactoryBean.setSecurityManager(securityManager);
+        Map<String, String> filterChainDefinitionMap = new LinkedHashMap<String, String>();
+        filterChainDefinitionMap.put("/assets/**", "anon");
+        filterChainDefinitionMap.put("/css/**", "anon");
+        filterChainDefinitionMap.put("/js/**", "anon");
+        filterChainDefinitionMap.put("/img/**", "anon");
+        filterChainDefinitionMap.put("/layui/**", "anon");
+        filterChainDefinitionMap.put("/captcha/**", "anon");
+        filterChainDefinitionMap.put("/favicon.ico", "anon");
+        filterChainDefinitionMap.put("/nologin", "anon");
+        filterChainDefinitionMap.put("/**", "authc");
+        shiroFilterFactoryBean.setLoginUrl("/nologin");
+        shiroFilterFactoryBean.setUnauthorizedUrl("/noauthor");
+        shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
+     /*   //自定义拦截器
+        Map<String, Filter> filters = shiroFilterFactoryBean.getFilters();
+        filters.put("authc", new MyFormAuthenticationFilter());*/
         return shiroFilterFactoryBean;
     }
+
+
 }

@@ -9,6 +9,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/*
 public class JwtInterceptor implements  HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
@@ -39,4 +40,5 @@ public class JwtInterceptor implements  HandlerInterceptor {
 
     }
 
-}
+}*/
+
