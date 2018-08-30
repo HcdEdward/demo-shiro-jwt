@@ -18,7 +18,8 @@ public class IndexController {
 
     @GetMapping("/helloworld")
     public Result helloWorld() {
-        return ResultGenerator.genSuccessResult("helloworld");
+        Subject subject = SecurityUtils.getSubject();
+        return ResultGenerator.genSuccessResult("helloworld"+subject.getPrincipal());
     }
 //添加shiro验证
     @PostMapping("/doLogin")
@@ -38,11 +39,14 @@ public class IndexController {
     //没有添加shiro验证
     @PostMapping("/login")
     public String login(String username, String password) throws ServletException {
-        if (!"admin".equals(username)) {
-            throw new ServletException("no such user");
-        }
-        if (!"123".equals(password)) {
-            throw new ServletException("wrong password");
+        boolean rememberMe = true;
+        Subject subject = SecurityUtils.getSubject();
+        UsernamePasswordToken token = new UsernamePasswordToken(username, password, rememberMe);
+        try {
+            subject.login(token);
+        } catch (AuthenticationException e) {
+            token.clear();
+            throw new ServletException("wrong password and wrong password");
         }
         return JwtUtil.getToken(username);
     }

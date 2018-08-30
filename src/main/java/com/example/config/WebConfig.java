@@ -19,6 +19,7 @@ public class WebConfig implements  WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         //允许全部请求跨域
         registry.addMapping("/**");
+
     }
 
     public void addInterceptors(InterceptorRegistry registry) {
