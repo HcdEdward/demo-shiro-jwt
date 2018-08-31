@@ -35,6 +35,12 @@ public class IndexController {
         return ResultGenerator.genSuccessResult("没权限！！");
     }
 
+    @PostMapping("/logout")
+    public Result logout() {
+        Subject subject = SecurityUtils.getSubject();
+        return ResultGenerator.genSuccessResult("登出！！");
+    }
+
 //没有添加JWT验证
     @PostMapping("/doLogin")
     public Result doLogin(String username, String password) {

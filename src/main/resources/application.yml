@@ -40,3 +40,15 @@ spring.mvc.view.prefix: /templates/
 # 配置jsp文件的后缀
 spring.mvc.view.suffix: .jsp
 #配置返回jsp end
+
+#redis管理session缓存配置
+redis:
+  host: localhost
+  port: 6379
+  jedis:
+    pool:
+      max-idle: 8
+      min-idle: 0
+      max-active: 8
+      max-wait: -1
+  timeout: 0
