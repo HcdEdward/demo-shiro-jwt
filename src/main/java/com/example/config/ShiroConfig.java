@@ -84,9 +84,8 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/layui/**", "anon");
         filterChainDefinitionMap.put("/captcha/**", "anon");
         filterChainDefinitionMap.put("/favicon.ico", "anon");
-        filterChainDefinitionMap.put("/nologin", "anon");
         filterChainDefinitionMap.put("/**", "authc");
-        shiroFilterFactoryBean.setLoginUrl("/nologin");
+        shiroFilterFactoryBean.setLoginUrl("/tokenLogin");
         shiroFilterFactoryBean.setUnauthorizedUrl("/noauthor");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
      /*   //自定义拦截器

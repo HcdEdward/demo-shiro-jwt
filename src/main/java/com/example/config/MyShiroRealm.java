@@ -1,6 +1,7 @@
 package com.example.config;
 
 import com.example.service.ShiroService;
+import com.example.vo.ResultGenerator;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -33,7 +34,6 @@ public class MyShiroRealm extends AuthorizingRealm {
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
         //获取用户账号
         String username = token.getPrincipal().toString();
-
         String password = shiroService.getPasswordByUsername(username);
         if (password != null) {
             AuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(

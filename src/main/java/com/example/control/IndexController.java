@@ -17,13 +17,13 @@ import java.io.Serializable;
 @RestController
 public class IndexController {
 
-    @PostMapping("/helloworld")
+    @PostMapping ("/helloworld")
     public Result helloWorld() {
         Subject subject = SecurityUtils.getSubject();
-        return ResultGenerator.genSuccessResult("helloworld");
+        return ResultGenerator.genSuccessResult("helloworld"+":"+subject.getPrincipal());
     }
 
-    @PostMapping("/nologin")
+    @GetMapping ("/noLogin")
     public Result nologin() {
         Subject subject = SecurityUtils.getSubject();
         return ResultGenerator.genSuccessResult("未登陆！！");
@@ -51,7 +51,7 @@ public class IndexController {
     }
 
     //添加JWT验证
-    @PostMapping("/login")
+    @PostMapping("/logins")
     public String login(String username, String password) throws ServletException {
         boolean rememberMe = true;
         Subject subject = SecurityUtils.getSubject();
@@ -66,7 +66,7 @@ public class IndexController {
     }
 
     //没有添加JWT验证
-    @PostMapping("/tokenLogin")
+    @GetMapping("/tokenLogin")
     public Serializable tokenLogin(String username, String password)throws ServletException {
         boolean rememberMe = true;
         Subject subject = SecurityUtils.getSubject();
