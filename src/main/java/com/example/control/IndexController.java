@@ -38,6 +38,7 @@ public class IndexController {
     @PostMapping("/logout")
     public Result logout() {
         Subject subject = SecurityUtils.getSubject();
+        subject.logout();//自定删除session和redis缓存
         return ResultGenerator.genSuccessResult("登出！！");
     }
 

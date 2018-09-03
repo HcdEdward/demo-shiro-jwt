@@ -67,6 +67,7 @@ public class KickoutSessionControlFilter extends AccessControlFilter {
         }
 
         Session session = subject.getSession();
+        //session.setTimeout(1000); 设置shiro-session过去时间，最好和shiro-redis缓存设置一样
         String username = (String) subject.getPrincipal();
         Serializable sessionId = session.getId();
 

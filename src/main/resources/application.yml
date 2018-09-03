@@ -52,3 +52,4 @@ redis:
       max-active: 8
       max-wait: -1
   timeout: 0
+
