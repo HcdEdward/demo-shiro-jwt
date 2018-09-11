@@ -1,5 +1,6 @@
 package com.example.control;
 
+import com.example.redisUtil.UserService;
 import com.example.util.JwtUtil;
 import com.example.vo.Result;
 import com.example.vo.ResultGenerator;
@@ -7,6 +8,7 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,6 +18,9 @@ import java.io.Serializable;
 
 @RestController
 public class IndexController {
+
+    @Autowired
+    UserService userService;
 
     @PostMapping ("/helloworld")
     public Result helloWorld() {
@@ -85,6 +90,11 @@ public class IndexController {
             throw new ServletException("wrong password and wrong password");
         }
         return subject.getSession().getId();
+    }
+
+    @GetMapping("getUser")
+    public String getUser() {
+        return userService.getUser(001);
     }
 
 }
