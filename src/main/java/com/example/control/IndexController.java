@@ -74,13 +74,13 @@ public class IndexController {
             token.clear();
             throw new ServletException("wrong password and wrong password");
         }
-        return JwtUtil.getToken(username);
+        return JwtUtil.getToken(username);      //返回了一个 JWT
     }
 
     //没有添加JWT验证
     @GetMapping("/tokenLogin")
     public Serializable tokenLogin(String username, String password)throws ServletException {
-        boolean rememberMe = true;
+        boolean rememberMe = true;      //点击记住密码！
         Subject subject = SecurityUtils.getSubject();
         UsernamePasswordToken token = new UsernamePasswordToken(username, password, rememberMe);
         try {

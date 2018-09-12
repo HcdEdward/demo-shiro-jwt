@@ -9,13 +9,13 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/*
+
 public class JwtInterceptor implements  HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
         String authHeader = request.getHeader("Authorization");
-        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {  //请求时可以再添加 “Bearer ”+ TOKEN
             throw new ServletException("invalid Authorization header");
         }
         //取得token
@@ -40,5 +40,5 @@ public class JwtInterceptor implements  HandlerInterceptor {
 
     }
 
-}*/
+}
 
